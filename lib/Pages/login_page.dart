@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                Image.asset('lib/images/tapyn.png', height: 150, width: 200),
+                Image.asset('images/tapyn.png', height: 150, width: 200),
                 const SizedBox(height: 20),
                 Text(
                   'Welcome back you\'ve been missed!',
@@ -161,11 +161,11 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     SquareTile(
                       onTap: () => AuthService().signInWithGoogle(),
-                      imagePath: 'lib/images/google.png'),
+                      imagePath: 'images/google.png'),
                     const SizedBox(width: 25),
                     SquareTile(
                       onTap: () => {},
-                      imagePath: 'lib/images/apple.png'),
+                      imagePath: 'images/apple.png'),
                   ],
                 ),
                 const SizedBox(height: 50),
