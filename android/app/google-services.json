@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "806110282711",
+    "project_id": "tapyn-2ff68",
+    "storage_bucket": "tapyn-2ff68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806110282711:android:3d3142f2cf926be5eb4192",
+        "android_client_info": {
+          "package_name": "com.example.tapyn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEVI7rF0ISq-YUYlB5LdHviO34xz8I2qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
