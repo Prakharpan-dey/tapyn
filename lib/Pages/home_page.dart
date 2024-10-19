@@ -112,15 +112,44 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _deleteLink(String docId) {
-    _firestore.collection('links').doc(docId).delete().then((_) {
-      setState(() {
-        _links.removeWhere((link) => link['docId'] == docId);
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Link deleted successfully!')),
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Confirm Deletion'),
+        content: const Text('Are you sure you want to delete this link?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              _firestore.collection('users').doc(user!.uid).collection('links').doc(docId).delete().then((_) {
+                setState(() {
+                  _links.removeWhere((link) => link['docId'] == docId);
+                });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Link deleted successfully!')),
+                );
+                Navigator.of(context).pop(); // Close the dialog
+              }).catchError((e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to delete link: $e')),
+                );
+                Navigator.of(context).pop(); // Close the dialog
+              });
+            },
+            child: const Text('Delete'),
+          ),
+        ],
       );
-    });
-  }
+    },
+  );
+}
+
   Future<void> _loadLinks() async {
     if (user != null) {
       try {
