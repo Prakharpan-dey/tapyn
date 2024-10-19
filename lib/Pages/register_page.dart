@@ -6,34 +6,35 @@ import 'package:tapyn/components.dart/squaretile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tapyn/services/auth_service.dart';
 
-class LoginPage extends StatefulWidget {
-  final Function()? onTap;
-  const LoginPage({super.key, required this.onTap});
+class RegisterPage extends StatefulWidget {
+  final GestureTapCallback? onTap; // Callback to switch to LoginPage
+  const RegisterPage({super.key, required this.onTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   // Text editing controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  bool _obscurePassword = true; // Password visibility toggle
+  final confirmPasswordController = TextEditingController(); // Added controller
 
   @override
   void dispose() {
     // Dispose of the controllers
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose(); // Dispose of confirm password controller
     super.dispose();
   }
 
-  // Sign user in method
-  void signUserIn() async {
+  // Sign user up method
+  void signUserUp() async {
     // Validate input
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+    if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields.')),
+        const SnackBar(content: Text('Passwords do not match!')),
       );
       return;
     }
@@ -45,13 +46,13 @@ class _LoginPageState extends State<LoginPage> {
       builder: (context) => const Center(child: CircularProgressIndicator()),
     );
 
+    // Try creating user
     try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-
-      // Navigate to the next page upon successful sign-in
+      // Navigate to the next page upon successful registration
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
@@ -59,11 +60,11 @@ class _LoginPageState extends State<LoginPage> {
     } on FirebaseAuthException catch (e) {
       String message;
       switch (e.code) {
-        case 'user-not-found':
-          message = 'No user found for that email.';
+        case 'weak-password':
+          message = 'The password provided is too weak.';
           break;
-        case 'wrong-password':
-          message = 'Wrong password provided for that user.';
+        case 'email-already-in-use':
+          message = 'An account already exists for that email.';
           break;
         default:
           message = 'An error occurred. Please try again.';
@@ -91,12 +92,12 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const SizedBox(height: 20),
                 Image.asset('lib/images/tapyn.png', height: 150, width: 200),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Text(
-                  'Welcome back you\'ve been missed!',
+                  'Let\'s create an account for you!',
                   style: TextStyle(color: Colors.grey[700], fontSize: 16),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 20),
                 // Email TextField
                 MyTextfield(
                   controller: emailController,
@@ -108,34 +109,20 @@ class _LoginPageState extends State<LoginPage> {
                 MyTextfield(
                   hintText: 'Password',
                   controller: passwordController,
-                  obscureText: _obscurePassword,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
+                  obscureText: true,
                 ),
                 const SizedBox(height: 10),
-                // Forgot Password
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text('Forgot Password?', style: TextStyle(color: Colors.grey[600])),
-                    ],
-                  ),
+                // Confirm Password TextField
+                MyTextfield(
+                  hintText: 'Confirm Password',
+                  controller: confirmPasswordController, // Use the new controller
+                  obscureText: true,
                 ),
                 const SizedBox(height: 10),
-                // Sign In Button
-                MyButton(text:"Sign In",
-                    onTap: signUserIn),
-                const SizedBox(height: 30),
+                // Sign Up Button
+                MyButton(text: "Sign Up"
+                ,onTap: signUserUp),
+                const SizedBox(height: 15),
                 // Or Continue with
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -154,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 // Google/Apple Sign In
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -168,17 +155,17 @@ class _LoginPageState extends State<LoginPage> {
                       imagePath: 'lib/images/apple.png'),
                   ],
                 ),
-                const SizedBox(height: 50),
-                // Not a member? Register now
+                const SizedBox(height: 30),
+                // Already have an account? Login now
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Not a member?', style: TextStyle(color: Colors.grey[700])),
+                    Text('Already have an account?', style: TextStyle(color: Colors.grey[700])),
                     const SizedBox(width: 4),
                     GestureDetector(
-                      onTap: widget.onTap != null ? () => widget.onTap!() : null,
+                      onTap: widget.onTap, // Correctly call the onTap function
                       child: const Text(
-                        'Register now',
+                        'Login now',
                         style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
                       ),
                     ),

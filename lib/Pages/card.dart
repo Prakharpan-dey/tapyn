@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class FlippingProfileCard extends StatefulWidget {
+  const FlippingProfileCard({super.key});
+
   @override
   _FlippingProfileCardState createState() => _FlippingProfileCardState();
 }
@@ -22,7 +24,7 @@ class _FlippingProfileCardState extends State<FlippingProfileCard> {
       child: GestureDetector(
         onTap: flipCard, // Tap to flip
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 600),
+          duration: const Duration(milliseconds: 600),
           transform: Matrix4.rotationY(isFlipped ? pi : 0),
           child: isFlipped ? _buildBackCard() : _buildFrontCard(),
         ),
@@ -34,12 +36,12 @@ class _FlippingProfileCardState extends State<FlippingProfileCard> {
     return GlassMorphismContainer(
       child: Column(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 50,
             backgroundImage: NetworkImage('https://via.placeholder.com/150'), // Add your profile image here
           ),
-          SizedBox(height: 16),
-          Text(
+          const SizedBox(height: 16),
+          const Text(
             "Someone's Name",
             style: TextStyle(
               color: Colors.white,
@@ -54,8 +56,8 @@ class _FlippingProfileCardState extends State<FlippingProfileCard> {
               fontSize: 14,
             ),
           ),
-          SizedBox(height: 16),
-          Row(
+          const SizedBox(height: 16),
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.favorite, color: Colors.white),
@@ -80,24 +82,24 @@ class _FlippingProfileCardState extends State<FlippingProfileCard> {
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Icon(Icons.facebook, color: Colors.white),
+                icon: const Icon(Icons.facebook, color: Colors.white),
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.wb_twighlight, color: Colors.white),
+                icon: const Icon(Icons.wb_twighlight, color: Colors.white),
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.insert_chart, color: Colors.white),
+                icon: const Icon(Icons.insert_chart, color: Colors.white),
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.youtube_searched_for, color: Colors.white),
+                icon: const Icon(Icons.youtube_searched_for, color: Colors.white),
                 onPressed: () {},
               ),
             ],
@@ -112,7 +114,7 @@ class _FlippingProfileCardState extends State<FlippingProfileCard> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
+          const Text(
             "Back of the card",
             style: TextStyle(
               color: Colors.white,
@@ -120,7 +122,7 @@ class _FlippingProfileCardState extends State<FlippingProfileCard> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             "Additional Information here",
             style: TextStyle(
@@ -137,13 +139,13 @@ class _FlippingProfileCardState extends State<FlippingProfileCard> {
 class GlassMorphismContainer extends StatelessWidget {
   final Widget child;
 
-  GlassMorphismContainer({required this.child});
+  const GlassMorphismContainer({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white.withOpacity(0.1),
@@ -151,7 +153,7 @@ class GlassMorphismContainer extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withOpacity(0.3),
             blurRadius: 10,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
