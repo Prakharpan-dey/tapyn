@@ -41,3 +41,25 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# Flutter-specific
+build/
+ios/Pods/
+android/.gradle/
+android/.idea/
+flutter_export_environment.sh
+
+# Sensitive files
+google-services.json
+GoogleService-Info.plist
+.env
+
+# OS-specific files
+.DS_Store
+.idea/
+
+# IDE-specific files
+.vscode/
+*.iml
+*.log

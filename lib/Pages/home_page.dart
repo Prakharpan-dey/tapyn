@@ -199,11 +199,6 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            Text(
-              user != null ? "LOGGED IN AS: ${user!.email}" : "No user logged in",
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: _links.length,
