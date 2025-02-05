@@ -37,9 +37,6 @@
    - After scanning a QR code, the profile is saved in the app.
    - Users can view the saved profile and tap the link icons to instantly access the associated platforms.
 
-## Screenshots
-[Add screenshots of the app in this section, showcasing the profile card, QR code generation, and saving features.]
-
 ## Getting Started
 
 ### Prerequisites
